@@ -8,25 +8,6 @@ import Header from "./Header";
 import BookCard from "./BookCard";
 import BookForm from "./BookForm";
 
-const books = [
-    {
-        id: 1,
-        img: "https://source.unsplash.com/random",
-        title: "Apple pe el",
-        author: "Kszekosz Paszkowski",
-        description: "Fajna",
-        rating: 2,
-    },
-    {
-        id: 2,
-        img: "https://ecsmedia.pl/c/cel-snajpera-historia-najniebezpieczniejszego-snajpera-w-dziejach-amerykanskiej-armii-b-iext87016367.jpg",
-        title: "Cel snajpera",
-        author: "wowowow",
-        description: "SUPERANCK",
-        rating: 5,
-    },
-];
-
 const theme = createTheme({
     palette: {
         background: {
@@ -37,18 +18,18 @@ const theme = createTheme({
 
 export default function MainPage() {
     const [showCreateForm, setShowCreateForm] = useState(false);
+    const [books, setBooks] = useState([]);
 
     function handleAddBook(book) {
         books.push(book);
     }
 
     function handleDeleteBook(id) {
-        console.log("i try to delete " + id);
-        console.log(books.findIndex((book) => book.id === id));
         books.splice(
             books.findIndex((book) => book.id === id),
             1,
         );
+        setBooks([...books]);
     }
 
     return (
