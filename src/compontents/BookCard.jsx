@@ -6,9 +6,17 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import { TextField, Box } from "@mui/material";
 
 export default function BookCard(props) {
     const [showDescription, setShowDescription] = useState(false);
+    const [showEdit, setShowEdit] = useState(false);
+    const [title, setTitle] = useState("");
+    const [author, setAuthor] = useState("");
+    const [description, setDescription] = useState("");
+    const [rating, setRating] = useState("");
+    const [image, setImage] = useState("");
+
     function handleDescription(e) {
         if (showDescription === true) {
             setShowDescription(false);
@@ -17,11 +25,33 @@ export default function BookCard(props) {
         }
     }
 
+    function handleEdit(e) {
+        if (showEdit === true) {
+            setShowEdit(false);
+        } else {
+            setShowEdit(true);
+        }
+    }
+
+    function handleEditButton(e) {
+        e.preventDefault();
+        props.editedBook({
+            id: props.id,
+            img: image,
+            title: title,
+            author: author,
+            description: description,
+            rating: rating,
+        });
+        setShowEdit(false);
+    }
+
     return (
         <Grid item xs={12} sm={6} md={4}>
             <Card
                 sx={{
                     height: "100%",
+
                     display: "flex",
                     flexDirection: "column",
                 }}
@@ -34,7 +64,7 @@ export default function BookCard(props) {
                     <Typography gutterBottom variant="h5" component="h2">
                         {props.title}
                     </Typography>
-                    <Typography>Rating: {props.rating} / 5</Typography>
+                    <Typography>Rating: {props.rating}</Typography>
                     {showDescription && (
                         <Typography>{props.description}</Typography>
                     )}
@@ -53,7 +83,12 @@ export default function BookCard(props) {
                     >
                         More
                     </Button>
-                    <Button color="warning" variant="outlined" size="small">
+                    <Button
+                        color="warning"
+                        variant="outlined"
+                        size="small"
+                        onClick={() => handleEdit()}
+                    >
                         Edit
                     </Button>
                     <Button
@@ -65,6 +100,81 @@ export default function BookCard(props) {
                         Delete
                     </Button>
                 </CardActions>
+                {showEdit && (
+                    <Box sx={{ mb: 2, p: 2 }}>
+                        <Typography variant="h5" align="center">
+                            Edit book
+                        </Typography>
+                        <Box component="form">
+                            <TextField
+                                sx={{ mt: 2 }}
+                                autoComplete="title"
+                                name="title"
+                                required
+                                fullWidth
+                                id="title"
+                                label="Title"
+                                autoFocus
+                                onChange={(e) => setTitle(e.target.value)}
+                            ></TextField>
+                            <TextField
+                                sx={{ mt: 2 }}
+                                autoComplete="author"
+                                name="author"
+                                required
+                                fullWidth
+                                id="author"
+                                label="Author"
+                                autoFocus
+                                onChange={(e) => setAuthor(e.target.value)}
+                            ></TextField>
+                            <TextField
+                                sx={{ mt: 2 }}
+                                autoComplete="description"
+                                name="description"
+                                required
+                                fullWidth
+                                id="description"
+                                label="Description"
+                                autoFocus
+                                onChange={(e) => setDescription(e.target.value)}
+                            ></TextField>
+                            <TextField
+                                sx={{ mt: 2 }}
+                                autoComplete="rating"
+                                name="rating"
+                                required
+                                fullWidth
+                                id="rating"
+                                label="Rating"
+                                type="number"
+                                autoFocus
+                                onChange={(e) => setRating(e.target.value)}
+                            ></TextField>
+                            <TextField
+                                sx={{ mt: 2 }}
+                                autoComplete="image"
+                                name="image"
+                                required
+                                fullWidth
+                                id="image"
+                                label="Image"
+                                autoFocus
+                                onChange={(e) => setImage(e.target.value)}
+                            ></TextField>
+                            <Button
+                                onClick={handleEditButton}
+                                sx={{ mt: 2 }}
+                                color="info"
+                                variant="contained"
+                                fullWidth
+                                size="large"
+                            >
+                                Edit
+                            </Button>
+                        </Box>
+                    </Box>
+                )}
             </Card>
         </Grid>
     );

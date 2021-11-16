@@ -1,11 +1,4 @@
-import {
-    Paper,
-    TextField,
-    Typography,
-    Box,
-    Button,
-    Alert,
-} from "@mui/material";
+import { Paper, TextField, Typography, Box, Button } from "@mui/material";
 import React, { useState } from "react";
 
 export default function BookForm(props) {
@@ -14,33 +7,21 @@ export default function BookForm(props) {
     const [description, setDescription] = useState("");
     const [rating, setRating] = useState("");
     const [image, setImage] = useState("");
-    const [showError, setShowError] = useState(false);
 
     function handleAddBookForm() {
-        setShowError(false);
-        if (rating < 0 || rating > 5) {
-            setShowError(true);
-        } else {
-            props.book({
-                id: Math.random().toString(36).substr(2, 9),
-                img: image,
-                title: title,
-                author: author,
-                description: description,
-                rating: rating,
-            });
-            props.isVisible(false);
-        }
+        props.book({
+            id: Math.random().toString(36).substr(2, 9),
+            img: image,
+            title: title,
+            author: author,
+            description: description,
+            rating: rating,
+        });
+        props.isVisible(false);
     }
 
     return (
         <Paper sx={{ mb: 2, p: 2 }}>
-            {showError && (
-                <Alert severity="error">
-                    Rating must be number from 0 to 5
-                </Alert>
-            )}
-
             <Typography variant="h4" align="center">
                 Add book
             </Typography>

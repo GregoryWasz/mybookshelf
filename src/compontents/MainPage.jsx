@@ -31,6 +31,11 @@ export default function MainPage() {
         );
         setBooks([...books]);
     }
+    function handleEditBook(editedBook) {
+        const bookIndex = books.findIndex((book) => book.id === editedBook.id);
+        books[bookIndex] = editedBook;
+        setBooks([...books]);
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -56,6 +61,7 @@ export default function MainPage() {
                                 description={book.description}
                                 rating={book.rating}
                                 handleDeleteBook={handleDeleteBook}
+                                editedBook={handleEditBook}
                             />
                         ))}
                     </Grid>
