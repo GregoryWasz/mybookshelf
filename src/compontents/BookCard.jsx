@@ -35,6 +35,22 @@ export default function BookCard(props) {
 
     function handleEditButton(e) {
         e.preventDefault();
+        if (image === "") {
+            setImage(props.image);
+        }
+        if (title === "") {
+            setTitle(props.title);
+        }
+        if (author === "") {
+            setAuthor(props.author);
+        }
+        if (description === "") {
+            setDescription(props.description);
+        }
+        if (rating === "") {
+            setRating(props.rating);
+        }
+
         props.editedBook({
             id: props.id,
             img: image,
@@ -58,48 +74,24 @@ export default function BookCard(props) {
             >
                 <CardMedia component="img" image={props.img} alt="book cover" />
                 <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography sx={{ color: "Gray", fontSize: 10 }}>
+                    <Typography paragraph sx={{ color: "Gray", fontSize: 10 }}>
                         {props.author}
                     </Typography>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography
+                        paragraph
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                    >
                         {props.title}
                     </Typography>
                     <Typography>Rating: {props.rating}</Typography>
                     {showDescription && (
-                        <Typography>{props.description}</Typography>
+                        <Typography paragraph>
+                            Description: {props.description}
+                        </Typography>
                     )}
                 </CardContent>
-                <CardActions
-                    sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Button
-                        onClick={handleDescription}
-                        variant="outlined"
-                        size="small"
-                    >
-                        More
-                    </Button>
-                    <Button
-                        color="warning"
-                        variant="outlined"
-                        size="small"
-                        onClick={() => handleEdit()}
-                    >
-                        Edit
-                    </Button>
-                    <Button
-                        color="error"
-                        variant="outlined"
-                        size="small"
-                        onClick={() => props.handleDeleteBook(props.id)}
-                    >
-                        Delete
-                    </Button>
-                </CardActions>
                 {showEdit && (
                     <Box sx={{ mb: 2, p: 2 }}>
                         <Typography variant="h5" align="center">
@@ -175,6 +167,37 @@ export default function BookCard(props) {
                         </Box>
                     </Box>
                 )}
+                <CardActions
+                    sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Button
+                        onClick={handleDescription}
+                        variant="outlined"
+                        size="small"
+                    >
+                        More
+                    </Button>
+                    <Button
+                        color="warning"
+                        variant="outlined"
+                        size="small"
+                        onClick={() => handleEdit()}
+                    >
+                        Edit
+                    </Button>
+                    <Button
+                        color="error"
+                        variant="outlined"
+                        size="small"
+                        onClick={() => props.handleDeleteBook(props.id)}
+                    >
+                        Delete
+                    </Button>
+                </CardActions>
             </Card>
         </Grid>
     );
