@@ -40,6 +40,7 @@ export default function MainPage() {
 
     function handleAddBook(book) {
         booksDatabase.push(book);
+        handlePagination(Math.ceil(booksDatabase.length / paginationValue));
     }
 
     function handleDeleteBook(id) {
@@ -47,14 +48,18 @@ export default function MainPage() {
             booksDatabase.findIndex((book) => book.id === id),
             1,
         );
-        handlePagination(1);
+        if (Math.ceil(booksDatabase.length / paginationValue) < page) {
+            handlePagination(1);
+        } else {
+            handlePagination(page);
+        }
     }
     function handleEditBook(editedBook) {
         const bookIndex = booksDatabase.findIndex(
             (book) => book.id === editedBook.id,
         );
         booksDatabase[bookIndex] = editedBook;
-        handlePagination(1);
+        handlePagination(page);
     }
 
     function handlePagination(value) {
