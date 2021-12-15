@@ -11,11 +11,11 @@ import { TextField, Box } from "@mui/material";
 export default function BookCard(props) {
     const [showDescription, setShowDescription] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
-    const [title, setTitle] = useState("");
-    const [author, setAuthor] = useState("");
-    const [description, setDescription] = useState("");
-    const [rating, setRating] = useState("");
-    const [image, setImage] = useState("");
+    const [title, setTitle] = useState(props.title);
+    const [author, setAuthor] = useState(props.author);
+    const [description, setDescription] = useState(props.description);
+    const [rating, setRating] = useState(props.rating);
+    const [image, setImage] = useState(props.img);
 
     function handleDescription(e) {
         if (showDescription === true) {
@@ -50,8 +50,7 @@ export default function BookCard(props) {
         if (rating === "") {
             setRating(props.rating);
         }
-
-        props.editedBook({
+        props.handleEditBook({
             id: props.id,
             img: image,
             title: title,
@@ -99,6 +98,7 @@ export default function BookCard(props) {
                         </Typography>
                         <Box component="form">
                             <TextField
+                                value={title}
                                 sx={{ mt: 2 }}
                                 autoComplete="title"
                                 name="title"
@@ -106,10 +106,10 @@ export default function BookCard(props) {
                                 fullWidth
                                 id="title"
                                 label="Title"
-                                autoFocus
                                 onChange={(e) => setTitle(e.target.value)}
                             ></TextField>
                             <TextField
+                                value={author}
                                 sx={{ mt: 2 }}
                                 autoComplete="author"
                                 name="author"
@@ -117,10 +117,10 @@ export default function BookCard(props) {
                                 fullWidth
                                 id="author"
                                 label="Author"
-                                autoFocus
                                 onChange={(e) => setAuthor(e.target.value)}
                             ></TextField>
                             <TextField
+                                value={description}
                                 sx={{ mt: 2 }}
                                 autoComplete="description"
                                 name="description"
@@ -128,10 +128,10 @@ export default function BookCard(props) {
                                 fullWidth
                                 id="description"
                                 label="Description"
-                                autoFocus
                                 onChange={(e) => setDescription(e.target.value)}
                             ></TextField>
                             <TextField
+                                value={rating}
                                 sx={{ mt: 2 }}
                                 autoComplete="rating"
                                 name="rating"
@@ -140,10 +140,10 @@ export default function BookCard(props) {
                                 id="rating"
                                 label="Rating"
                                 type="number"
-                                autoFocus
                                 onChange={(e) => setRating(e.target.value)}
                             ></TextField>
                             <TextField
+                                value={image}
                                 sx={{ mt: 2 }}
                                 autoComplete="image"
                                 name="image"
@@ -151,7 +151,6 @@ export default function BookCard(props) {
                                 fullWidth
                                 id="image"
                                 label="Image"
-                                autoFocus
                                 onChange={(e) => setImage(e.target.value)}
                             ></TextField>
                             <Button

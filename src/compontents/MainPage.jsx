@@ -7,6 +7,9 @@ import MainText from "./MainText";
 import Header from "./Header";
 import BookCard from "./BookCard";
 import BookForm from "./BookForm";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
+import Paper from "@mui/material/Paper";
 
 const theme = createTheme({
     palette: {
@@ -16,25 +19,58 @@ const theme = createTheme({
     },
 });
 
+var booksDatabase = [
+    { id: 1, img: "a", title: 1, author: 1, description: 1, rating: 1 },
+    { id: 2, img: "a", title: 2, author: 1, description: 1, rating: 1 },
+    { id: 3, img: "a", title: 3, author: 1, description: 1, rating: 1 },
+    { id: 4, img: "a", title: 4, author: 1, description: 1, rating: 1 },
+    { id: 5, img: "a", title: 5, author: 1, description: 1, rating: 1 },
+    { id: 6, img: "a", title: 6, author: 1, description: 1, rating: 1 },
+    { id: 7, img: "a", title: 7, author: 1, description: 1, rating: 1 },
+    { id: 8, img: "a", title: 8, author: 1, description: 1, rating: 1 },
+    { id: 9, img: "a", title: 9, author: 1, description: 1, rating: 1 },
+];
+
+const paginationValue = 6;
+
 export default function MainPage() {
     const [showCreateForm, setShowCreateForm] = useState(false);
-    const [books, setBooks] = useState([]);
+    const [books, setBooks] = useState(booksDatabase.slice(0, paginationValue));
+    const [page, setPage] = useState(1);
 
     function handleAddBook(book) {
-        books.push(book);
+        booksDatabase.push(book);
+        handlePagination(Math.ceil(booksDatabase.length / paginationValue));
     }
 
     function handleDeleteBook(id) {
-        books.splice(
-            books.findIndex((book) => book.id === id),
+        booksDatabase.splice(
+            booksDatabase.findIndex((book) => book.id === id),
             1,
         );
-        setBooks([...books]);
+        if (Math.ceil(booksDatabase.length / paginationValue) < page) {
+            handlePagination(1);
+        } else {
+            handlePagination(page);
+        }
     }
     function handleEditBook(editedBook) {
-        const bookIndex = books.findIndex((book) => book.id === editedBook.id);
-        books[bookIndex] = editedBook;
-        setBooks([...books]);
+        const bookIndex = booksDatabase.findIndex(
+            (book) => book.id === editedBook.id,
+        );
+        booksDatabase[bookIndex] = editedBook;
+        handlePagination(page);
+    }
+
+    function handlePagination(value) {
+        setPage(value);
+        value -= 1;
+        setBooks(
+            booksDatabase.slice(
+                value * paginationValue,
+                value * paginationValue + paginationValue,
+            ),
+        );
     }
 
     return (
@@ -43,6 +79,27 @@ export default function MainPage() {
             <Header onClick={setShowCreateForm} isVisible={showCreateForm} />
             <main>
                 <MainText />
+                <Paper
+                    variant="outlined"
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        p: 0.5,
+                        border: 0,
+                    }}
+                >
+                    <Stack spacing={2}>
+                        <Pagination
+                            onChange={(e, value) => {
+                                handlePagination(value);
+                            }}
+                            count={Math.ceil(
+                                booksDatabase.length / paginationValue,
+                            )}
+                            page={page}
+                        />
+                    </Stack>
+                </Paper>
                 <Container sx={{ py: 8 }} maxWidth="md">
                     {showCreateForm && (
                         <BookForm
@@ -61,7 +118,7 @@ export default function MainPage() {
                                 description={book.description}
                                 rating={book.rating}
                                 handleDeleteBook={handleDeleteBook}
-                                editedBook={handleEditBook}
+                                handleEditBook={handleEditBook}
                             />
                         ))}
                     </Grid>
