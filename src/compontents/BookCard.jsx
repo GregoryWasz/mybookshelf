@@ -66,22 +66,16 @@ export default function BookCard(props) {
             <Card
                 sx={{
                     height: "100%",
-
                     display: "flex",
                     flexDirection: "column",
                 }}
             >
                 <CardMedia component="img" image={props.img} alt="book cover" />
                 <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography paragraph sx={{ color: "Gray", fontSize: 10 }}>
+                    <Typography sx={{ color: "Gray", fontSize: 10 }}>
                         {props.author}
                     </Typography>
-                    <Typography
-                        paragraph
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                    >
+                    <Typography gutterBottom variant="h5" component="h2">
                         {props.title}
                     </Typography>
                     <Typography>Rating: {props.rating}</Typography>
@@ -132,7 +126,7 @@ export default function BookCard(props) {
                             ></TextField>
                             <TextField
                                 value={rating}
-                                sx={{ mt: 2 }}
+                                sx={{ mt: 1 }}
                                 autoComplete="rating"
                                 name="rating"
                                 required

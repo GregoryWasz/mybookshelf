@@ -7,9 +7,9 @@ import MainText from "./MainText";
 import Header from "./Header";
 import BookCard from "./BookCard";
 import BookForm from "./BookForm";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
-import Paper from "@mui/material/Paper";
+import PaginationComp from "./PaginationComp";
+import Search from "./Search";
+import { Box } from "@mui/system";
 
 const theme = createTheme({
     palette: {
@@ -19,17 +19,7 @@ const theme = createTheme({
     },
 });
 
-var booksDatabase = [
-    { id: 1, img: "a", title: 1, author: 1, description: 1, rating: 1 },
-    { id: 2, img: "a", title: 2, author: 1, description: 1, rating: 1 },
-    { id: 3, img: "a", title: 3, author: 1, description: 1, rating: 1 },
-    { id: 4, img: "a", title: 4, author: 1, description: 1, rating: 1 },
-    { id: 5, img: "a", title: 5, author: 1, description: 1, rating: 1 },
-    { id: 6, img: "a", title: 6, author: 1, description: 1, rating: 1 },
-    { id: 7, img: "a", title: 7, author: 1, description: 1, rating: 1 },
-    { id: 8, img: "a", title: 8, author: 1, description: 1, rating: 1 },
-    { id: 9, img: "a", title: 9, author: 1, description: 1, rating: 1 },
-];
+var booksDatabase = [];
 
 const paginationValue = 6;
 
@@ -73,34 +63,24 @@ export default function MainPage() {
         );
     }
 
+    function searchByTitle(title) {
+        console.log(title);
+        setBooks(
+            booksDatabase
+                .filter((book) => book.title.includes(title))
+                .splice(0, 6),
+        );
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Header onClick={setShowCreateForm} isVisible={showCreateForm} />
             <main>
                 <MainText />
-                <Paper
-                    variant="outlined"
-                    sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        p: 0.5,
-                        border: 0,
-                    }}
-                >
-                    <Stack spacing={2}>
-                        <Pagination
-                            onChange={(e, value) => {
-                                handlePagination(value);
-                            }}
-                            count={Math.ceil(
-                                booksDatabase.length / paginationValue,
-                            )}
-                            page={page}
-                        />
-                    </Stack>
-                </Paper>
-                <Container sx={{ py: 8 }} maxWidth="md">
+                <Search searchByTitle={searchByTitle} />
+
+                <Container sx={{ py: 4 }} maxWidth="md">
                     {showCreateForm && (
                         <BookForm
                             isVisible={setShowCreateForm}
@@ -123,6 +103,15 @@ export default function MainPage() {
                         ))}
                     </Grid>
                 </Container>
+
+                <Box sx={{ mb: 4 }} />
+
+                <PaginationComp
+                    handlePagination={handlePagination}
+                    booksDatabase={booksDatabase}
+                    paginationValue={paginationValue}
+                    page={page}
+                />
             </main>
         </ThemeProvider>
     );
