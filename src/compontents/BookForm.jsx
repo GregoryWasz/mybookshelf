@@ -16,6 +16,7 @@ export default function BookForm(props) {
             author: author,
             description: description,
             rating: rating,
+            isFavourite: false,
         });
         props.isVisible(false);
     }

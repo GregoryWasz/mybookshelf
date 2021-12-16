@@ -5,7 +5,6 @@ import Typography from "@mui/material/Typography";
 import { IconButton, Toolbar } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-
 export default function Header(props) {
     function handleShowAddForm(e) {
         e.preventDefault();
@@ -17,14 +16,7 @@ export default function Header(props) {
     }
     return (
         <AppBar position="relative">
-            <Toolbar
-                sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                }}
-            >
+            <Toolbar>
                 <MenuBookOutlinedIcon sx={{ mr: 2 }} />
                 <Typography
                     variant="h6"
@@ -34,7 +26,6 @@ export default function Header(props) {
                 >
                     My Bookshelf
                 </Typography>
-
                 <IconButton
                     sx={{ color: "white" }}
                     edge="end"

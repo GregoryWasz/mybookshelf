@@ -7,6 +7,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { TextField, Box } from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 export default function BookCard(props) {
     const [showDescription, setShowDescription] = useState(false);
@@ -16,6 +18,7 @@ export default function BookCard(props) {
     const [description, setDescription] = useState(props.description);
     const [rating, setRating] = useState(props.rating);
     const [image, setImage] = useState(props.img);
+    const [isFavourite, setIsFavourite] = useState(props.isFavourite);
 
     function handleDescription(e) {
         if (showDescription === true) {
@@ -50,6 +53,10 @@ export default function BookCard(props) {
         if (rating === "") {
             setRating(props.rating);
         }
+        if (isFavourite === "") {
+            setIsFavourite(props.isFavourite);
+        }
+
         props.handleEditBook({
             id: props.id,
             img: image,
@@ -57,6 +64,7 @@ export default function BookCard(props) {
             author: author,
             description: description,
             rating: rating,
+            isFavourite: isFavourite,
         });
         setShowEdit(false);
     }
@@ -66,22 +74,16 @@ export default function BookCard(props) {
             <Card
                 sx={{
                     height: "100%",
-
                     display: "flex",
                     flexDirection: "column",
                 }}
             >
                 <CardMedia component="img" image={props.img} alt="book cover" />
                 <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography paragraph sx={{ color: "Gray", fontSize: 10 }}>
+                    <Typography sx={{ color: "Gray", fontSize: 10 }}>
                         {props.author}
                     </Typography>
-                    <Typography
-                        paragraph
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                    >
+                    <Typography gutterBottom variant="h5" component="h2">
                         {props.title}
                     </Typography>
                     <Typography>Rating: {props.rating}</Typography>
@@ -132,7 +134,7 @@ export default function BookCard(props) {
                             ></TextField>
                             <TextField
                                 value={rating}
-                                sx={{ mt: 2 }}
+                                sx={{ mt: 1 }
                                 autoComplete="rating"
                                 name="rating"
                                 required
@@ -169,32 +171,49 @@ export default function BookCard(props) {
                 <CardActions
                     sx={{
                         display: "flex",
-                        flexDirection: "row",
+                        flexDirection: "column",
                         justifyContent: "center",
                     }}
                 >
+                    <Box>
+                        <Button
+                            onClick={handleDescription}
+                            variant="outlined"
+                            size="small"
+                            sx={{ mr: 1 }}
+                        >
+                            More
+                        </Button>
+                        <Button
+                            color="warning"
+                            variant="outlined"
+                            size="small"
+                            sx={{ mr: 1 }}
+                            onClick={() => handleEdit()}
+                        >
+                            Edit
+                        </Button>
+                        <Button
+                            color="error"
+                            variant="outlined"
+                            size="small"
+                            onClick={() => props.handleDeleteBook(props.id)}
+                        >
+                            Delete
+                        </Button>
+                    </Box>
                     <Button
-                        onClick={handleDescription}
+                        color="secondary"
                         variant="outlined"
                         size="small"
+                        sx={{ mt: 1, width: "215px" }}
+                        onClick={() => props.handleIsFavourite(props.id)}
                     >
-                        More
-                    </Button>
-                    <Button
-                        color="warning"
-                        variant="outlined"
-                        size="small"
-                        onClick={() => handleEdit()}
-                    >
-                        Edit
-                    </Button>
-                    <Button
-                        color="error"
-                        variant="outlined"
-                        size="small"
-                        onClick={() => props.handleDeleteBook(props.id)}
-                    >
-                        Delete
+                        {props.isFavourite ? (
+                            <FavoriteIcon />
+                        ) : (
+                            <FavoriteBorderIcon />
+                        )}
                     </Button>
                 </CardActions>
             </Card>

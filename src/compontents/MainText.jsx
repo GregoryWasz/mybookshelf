@@ -9,7 +9,7 @@ export default function MainText() {
             sx={{
                 bgcolor: "background.paper",
                 pt: 4,
-                pb: 3,
+                pb: 0.1,
             }}
         >
             <Container maxWidth="sm">
