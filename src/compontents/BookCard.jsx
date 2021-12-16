@@ -56,6 +56,7 @@ export default function BookCard(props) {
         if (isFavourite === "") {
             setIsFavourite(props.isFavourite);
         }
+
         props.handleEditBook({
             id: props.id,
             img: image,
@@ -133,7 +134,7 @@ export default function BookCard(props) {
                             ></TextField>
                             <TextField
                                 value={rating}
-                                sx={{ mt: 1 }}
+                                sx={{ mt: 1 }
                                 autoComplete="rating"
                                 name="rating"
                                 required

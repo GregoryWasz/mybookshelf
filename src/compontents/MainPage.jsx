@@ -10,6 +10,9 @@ import BookForm from "./BookForm";
 import PaginationComp from "./PaginationComp";
 import Search from "./Search";
 import { Box } from "@mui/system";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
+import Paper from "@mui/material/Paper";
 
 const theme = createTheme({
     palette: {
@@ -170,8 +173,29 @@ export default function MainPage() {
             <main>
                 <MainText />
                 <Search searchByTitle={searchByTitle} />
-
                 <Container sx={{ py: 4 }} maxWidth="md">
+                <Paper
+                    variant="outlined"
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        p: 0.5,
+                        border: 0,
+                    }}
+                >
+                    <Stack spacing={2}>
+                        <Pagination
+                            onChange={(e, value) => {
+                                handlePagination(value);
+                            }}
+                            count={Math.ceil(
+                                booksDatabase.length / paginationValue,
+                            )}
+                            page={page}
+                        />
+                    </Stack>
+                </Paper>
+                <Container sx={{ py: 8 }} maxWidth="md">
                     {showCreateForm && (
                         <BookForm
                             isVisible={setShowCreateForm}
@@ -192,6 +216,7 @@ export default function MainPage() {
                                 handleDeleteBook={handleDeleteBook}
                                 handleEditBook={handleEditBook}
                                 handleIsFavourite={handleIsFavourite}
+
                             />
                         ))}
                     </Grid>
